@@ -2,7 +2,7 @@
 #define MAIN_H
 
 #include <unistd.h>
-#include <stdarg.h> 
+#include <stdarg.h>
 #include <stdio.h>
 #include <limits.h>
 
@@ -18,8 +18,10 @@ typedef struct op
 } op_t;
 
 int _putchar(char c);
-int _printf(const char * format, ...);
+int _printf(const char *format, ...);
 int print_char(va_list list);
 int print_str(va_list list);
+int print_percent(__attribute__((unused))va_list list);
+int (*get_spec_func(char *s))(va_list);
 
 #endif
