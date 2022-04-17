@@ -13,7 +13,7 @@ int read_printf(const char *format, va_list ap)
 	char tmp;
 	int i;
 	int ret = 0;
-	int (*f)(va_list);
+	int (*f)(va_list, char);
 
 	for (i = 0; *(format + i); i++)
 	{
