@@ -23,7 +23,7 @@ int parser(const char *format, op_t f_list[], va_list ap)
 			{
 				if (format[i + 1] == f_list[j].sym[0])
 				{
-					r_val = f_list[j].f(ap);
+					r_val = f_list[j].fp(ap);
 					if (r_val == -1)
 						return (-1);
 					printed_chars += r_val;
