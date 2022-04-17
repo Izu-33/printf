@@ -12,7 +12,7 @@ int print_number(va_list list)
 
 	n = va_arg(list, int);
 	div = 1;
-	len - 0;
+	len = 0;
 
 	if (n < 0)
 	{
