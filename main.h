@@ -22,6 +22,6 @@ int _printf(const char *format, ...);
 int print_char(va_list list);
 int print_str(va_list list);
 int print_percent(__attribute__((unused))va_list list);
-int (*get_spec_func(const char *s))(va_list, char);
+int (*get_spec_func(const char *s))(va_list);
 
 #endif
