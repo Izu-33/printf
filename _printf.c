@@ -11,9 +11,7 @@
  */
 int parser(const char *format, op_t f_list[], va_list ap)
 {
-	int i, j, r_val, printed_chars;
-
-	printed_chars = 0;
+	int i, j, r_val, printed_chars = 0;
 
 	for (i = 0; format[i] != '\0'; i++)
 	{
@@ -39,9 +37,7 @@ int parser(const char *format, op_t f_list[], va_list ap)
 					printed_chars += 2;
 				}
 				else
-				{
 					return (-1);
-				}
 			}
 			i = i + 1;
 		}
