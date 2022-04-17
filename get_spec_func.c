@@ -5,7 +5,7 @@
  * @s: An array to check.
  * Return: A function.
  */
-int (*get_spec_func(char *s))(va_list)
+int (*get_spec_func(const char *s))(va_list)
 {
 	op_t ops[] = {
 		{"c", print_char},
@@ -18,7 +18,7 @@ int (*get_spec_func(char *s))(va_list)
 
 	for (i = 0; ops[i].fp != NULL; i++)
 	{
-		if (ops[i].s == *s)
+		if (ops[i].c == s)
 			return (ops[i].fp);
 	}
 
