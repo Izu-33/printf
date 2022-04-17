@@ -16,9 +16,9 @@ int (*get_spec_func(char *s))(va_list)
 
 	int i;
 
-	for (i = 0; ops[i].c != NULL; i++)
+	for (i = 0; ops[i].fp != NULL; i++)
 	{
-		if (*ops[i].c == s)
+		if (ops[i].s == *s)
 			return (ops[i].fp);
 	}
 

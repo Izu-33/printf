@@ -1,5 +1,42 @@
 #include "main.h"
 
+
+/**
+ * read_printf - Reads through format string.
+ * @format: String to print.
+ * @ap: Argument list.
+ *
+ * Return: Number of characters read.
+ */
+int read_printf(const char *format, va_list ap)
+{
+	char tmp;
+	int i;
+	int ret = 0;
+	int (*f)(va_list);
+
+	for (i = 0; *(format + i); i++)
+	{
+		if (*(format + i) == '%')
+		{
+			tmp = 0;
+			f = get_spec_func(format + i + tmp + 1);
+			if (f != NULL)
+			{
+				i += tmp + 1;
+				ret += f(ap);
+				continue;
+			}
+			else if (*(format + i + tmp + 1) == '\0')
+			{
+				ret = -1;
+				break;
+			}
+		}
+	}
+	return (ret);
+}
+
 /**
  * _printf - Produces output according to a format.
  * @format: Array to print and check type.
@@ -7,42 +44,15 @@
  */
 int _printf(const char *format, ...)
 {
-	int count = -1;
+	va_list ap;
+	int ret;
 
-	if (format != NULL)
-	{
-		int i;
-		va_list list;
-		int (*func)(va_list);
+	if (format == NULL)
+		return (-1);
 
-		va_start(list, format);
+	va_start(ap, format);
 
-		if (format[0] == '%' && format[1] == '\0')
-			return (-1);
-
-		count = 0;
-
-		for (i = 0; format[i] != '\0'; i++)
-		{
-			if (format[i] == '%')
-			{
-				if (format[i + 1] == '%')
-				{
-					count += _putchar(format[i]);
-					i++;
-				}
-				else if (format[i + 1] != '\0')
-				{
-					func = get_spec_func(format[i + 1]);
-					count += (func ? func(list) : _putchar(format[i]) + _putchar(format[i + 1]));
-					i++;
-				}
-			}
-			else
-				count += _putchar(format[i]);
-		}
-		va_end(list);
-	}
-
-	return (count);
+	ret = read_printf(format, ap);
+	va_end(ap);
+	return (ret);
 }
