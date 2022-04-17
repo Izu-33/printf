@@ -18,7 +18,6 @@ typedef struct op
 } op_t;
 
 int _putchar(char c);
-int print_number(va_list list);
 int _printf(const char *format, ...);
 int print_char(va_list list);
 int print_str(va_list list);
