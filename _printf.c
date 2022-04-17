@@ -2,39 +2,56 @@
 
 
 /**
- * read_printf - Reads through format string.
+ * parser - Reads through format string.
  * @format: String to print.
+ * @f_list: List of options.
  * @ap: Argument list.
  *
  * Return: Number of characters read.
  */
-int read_printf(const char *format, va_list ap)
+int parser(const char *format, op_t f_list[], va_list ap)
 {
-	char tmp;
-	int i;
-	int ret = 0;
-	int (*f)(va_list);
+	int i, j, r_val, printed_chars;
 
-	for (i = 0; *(format + i); i++)
+	printed_chars = 0;
+
+	for (i = 0; format[i] != '\0'; i++)
 	{
-		if (*(format + i) == '%')
+		if (format[i] == '%')
 		{
-			tmp = 0;
-			f = get_spec_func(format + i + tmp + 1);
-			if (f != NULL)
+			for (j = 0; f_list[j].sym != NULL; j++)
 			{
-				i += tmp + 1;
-				ret += f(ap);
-				continue;
+				if (format[i + 1] == f_list[j].sym[0])
+				{
+					r_val = f_list[j].f(ap);
+					if (r_val == -1)
+						return (-1);
+					printed_chars += r_val;
+					break;
+				}
 			}
-			else if (*(format + i + tmp + 1) == '\0')
+			if (f_list[j].sym == NULL && format[i + 1] != ' ')
 			{
-				ret = -1;
-				break;
+				if (format[i + 1] != '\0')
+				{
+					_putchar(format[i]);
+					_putchar(format[i + 1]);
+					printed_chars += 2;
+				}
+				else
+				{
+					return (-1);
+				}
 			}
+			i = i + 1;
+		}
+		else
+		{
+			_putchar(format[i]);
+			printed_chars++;
 		}
 	}
-	return (ret);
+	return (printed_chars);
 }
 
 /**
@@ -44,15 +61,23 @@ int read_printf(const char *format, va_list ap)
  */
 int _printf(const char *format, ...)
 {
+	int printed_chars;
+
+	op_t f_list[] = {
+		{"c", print_char},
+		{"s", print_str},
+		{"%", print_percent},
+		{NULL, NULL}
+	};
+
 	va_list ap;
-	int ret;
 
 	if (format == NULL)
 		return (-1);
 
 	va_start(ap, format);
-
-	ret = read_printf(format, ap);
+	printed_chars = parser(format, f_list, ap);
 	va_end(ap);
-	return (ret);
+
+	return (printed_chars);
 }
